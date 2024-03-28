@@ -2,17 +2,26 @@ const redux = require('redux');
 const createStore = redux.createStore;
 
 const BUY_CAKE = 'BUY_CAKE';
+const BUY_ICECREAM = 'BUY_ICECREAM';
 
 // action creator object. The pupose of below function is to return an action object.
 function buyCake() {
   return {
     type: BUY_CAKE,
-    info: 'First redux action'
+    info: 'Chocolate cake!'
+  };
+}
+
+function buyIceCream() {
+  return {
+    type: BUY_ICECREAM,
+    info: 'Ice cream!'
   };
 }
 
 const initialState = {
-  numOfCakes: 10
+  numOfCakes: 10,
+  numOfIceCreams: 20
 };
 
 // reducer function
@@ -23,6 +32,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         numOfCakes: state.numOfCakes - 1
+      };
+
+    case BUY_ICECREAM:
+      return {
+        ...state,
+        numOfIceCreams: state.numOfIceCreams - 1
       };
 
     default:
@@ -43,6 +58,9 @@ const unsubscibe = store.subscribe(() => console.log('updated state', store.getS
 store.dispatch(buyCake());
 store.dispatch(buyCake());
 store.dispatch(buyCake());
+
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
 
 // Redux store handles unregistering of listeners via the function returned by subscribe(listener)
 unsubscibe();
