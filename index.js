@@ -4,6 +4,7 @@ const reduxLogger = require('redux-logger');
 const createStore = redux.createStore;
 const combineReducers = redux.combineReducers;
 const applyMiddleware = redux.applyMiddleware;
+
 const logger = reduxLogger.createLogger();
 
 const BUY_CAKE = 'BUY_CAKE';
@@ -72,7 +73,7 @@ const store = createStore(rootReducer, applyMiddleware(logger));
 console.log('initial state', store.getState());
 
 // Redux store register listeners via subscribe(listener)
-const unsubscibe = store.subscribe(() => {});
+const unsubscribe = store.subscribe(() => {});
 
 // Redux store allows state to be updated via dispatch(action)
 store.dispatch(buyCake());
@@ -83,4 +84,4 @@ store.dispatch(buyIceCream());
 store.dispatch(buyIceCream());
 
 // Redux store handles unregistering of listeners via the function returned by subscribe(listener)
-unsubscibe();
+unsubscribe();
