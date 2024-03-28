@@ -35,6 +35,22 @@ const fetchUsersFailure = error => {
   };
 };
 
+const fetchUsers = () => {
+  return function (dispatch) {
+    dispatch(fetchUsersRequest());
+
+    axios
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then(response => {
+        const users = response.data.map(user => user.id);
+        dispatch(fetchUsersSuccess(users));
+      })
+      .catch(error => {
+        dispatch(fetchUsersFailure(error.message));
+      });
+  };
+};
+
 const reducer = (state = initialState, action) => {
   console.log(action.type);
 
@@ -57,22 +73,6 @@ const reducer = (state = initialState, action) => {
         error: action.payload
       };
   }
-};
-
-const fetchUsers = () => {
-  return function (dispatch) {
-    dispatch(fetchUsersRequest());
-
-    axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(response => {
-        const users = response.data.map(user => user.id);
-        dispatch(fetchUsersSuccess(users));
-      })
-      .catch(error => {
-        dispatch(fetchUsersFailure(error.message));
-      });
-  };
 };
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
