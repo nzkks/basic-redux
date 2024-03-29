@@ -1,5 +1,6 @@
 const redux = require('redux');
 const reduxLogger = require('redux-logger');
+const bindActionCreators = redux.bindActionCreators;
 
 const createStore = redux.createStore;
 const combineReducers = redux.combineReducers;
@@ -104,14 +105,23 @@ const unsubscribe = store.subscribe(() => {
 });
 
 // Redux store allows state to be updated via dispatch(action)
-store.dispatch(orderCake());
-store.dispatch(orderCake());
-store.dispatch(orderCake());
-store.dispatch(restockCake(3));
+// store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(restockCake(3));
+const cakeActions = bindActionCreators({ orderCake, restockCake }, store.dispatch);
+cakeActions.orderCake();
+cakeActions.orderCake();
+cakeActions.orderCake();
+cakeActions.restockCake(3);
 
-store.dispatch(orderIceCream());
-store.dispatch(orderIceCream());
-store.dispatch(restockIceCream(2));
+// store.dispatch(orderIceCream());
+// store.dispatch(orderIceCream());
+// store.dispatch(restockIceCream(2));
+const iceCreamActions = bindActionCreators({ orderIceCream, restockIceCream }, store.dispatch);
+iceCreamActions.orderIceCream();
+iceCreamActions.orderIceCream();
+iceCreamActions.restockIceCream(2);
 
 // Redux store handles unregistering of listeners via the function returned by subscribe(listener)
 unsubscribe();
