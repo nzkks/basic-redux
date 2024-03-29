@@ -9,3 +9,7 @@ node index.js
 ### With the help of Redux-thunk and Axios
 
 node asyncActions.js
+
+### With the help of Immer, updating nested objects in the state became easier
+
+node nested-state.js
