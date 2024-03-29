@@ -7,21 +7,21 @@ const applyMiddleware = redux.applyMiddleware;
 
 const logger = reduxLogger.createLogger();
 
-const BUY_CAKE = 'BUY_CAKE';
-const BUY_ICECREAM = 'BUY_ICECREAM';
+const CAKE_ORDERED = 'CAKE_ORDERED';
+const ICECREAM_ORDERED = 'ICECREAM_ORDERED';
 
 // action creator object. The pupose of below function is to return an action object.
-function buyCake() {
+function orderCake() {
   return {
-    type: BUY_CAKE,
-    info: 'Chocolate cake!'
+    type: CAKE_ORDERED,
+    quantity: 1
   };
 }
 
-function buyIceCream() {
+function orderIceCream() {
   return {
-    type: BUY_ICECREAM,
-    info: 'Ice cream!'
+    type: ICECREAM_ORDERED,
+    quantity: 1
   };
 }
 
@@ -37,10 +37,10 @@ const initialIceCreamState = {
 // (previousState, action) => newState
 const cakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
-    case BUY_CAKE:
+    case CAKE_ORDERED:
       return {
         ...state,
-        numOfCakes: state.numOfCakes - 1
+        numOfCakes: state.numOfCakes - action.quantity
       };
 
     default:
@@ -50,10 +50,10 @@ const cakeReducer = (state = initialCakeState, action) => {
 
 const iceCreamReducer = (state = initialIceCreamState, action) => {
   switch (action.type) {
-    case BUY_ICECREAM:
+    case ICECREAM_ORDERED:
       return {
         ...state,
-        numOfIceCreams: state.numOfIceCreams - 1
+        numOfIceCreams: state.numOfIceCreams - action.quantity
       };
 
     default:
@@ -70,18 +70,20 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, applyMiddleware(logger));
 
 // Redux store allows access to state via getState()
-console.log('initial state', store.getState());
+console.log('initial state ', store.getState());
 
 // Redux store register listeners via subscribe(listener)
-const unsubscribe = store.subscribe(() => {});
+const unsubscribe = store.subscribe(() => {
+  console.log('Update state ', store.getState());
+});
 
 // Redux store allows state to be updated via dispatch(action)
-store.dispatch(buyCake());
-store.dispatch(buyCake());
-store.dispatch(buyCake());
+store.dispatch(orderCake());
+store.dispatch(orderCake());
+store.dispatch(orderCake());
 
-store.dispatch(buyIceCream());
-store.dispatch(buyIceCream());
+store.dispatch(orderIceCream());
+store.dispatch(orderIceCream());
 
 // Redux store handles unregistering of listeners via the function returned by subscribe(listener)
 unsubscribe();
